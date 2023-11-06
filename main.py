@@ -6,15 +6,20 @@ from tqdm import tqdm
 import webbrowser
 
 fandom.set_wiki('vocaloidlyrics')
+
 query = input('enter query: ')
 print('\nsearching for song...')
+
 res = fandom.search(query, results=5)
+
 print('\nfirst 5 results:\n')
 for x, song in enumerate(res):
     print(f'{x + 1}. {song[0]}')
 print()
+
 sel = input('which result to use?: ')
 title = res[int(sel) - 1][0]
+
 print('\ngetting lyrics...\n')
 page = fandom.page(title)
 lyrics = page.section('Lyrics').splitlines()
