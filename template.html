@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ song_name }}</title>
+        <style>
+            a {
+                text-decoration: none;
+                color: white;
+                font-size: 25px;
+            }
+
+            body {
+                background-color: #24273a
+            }
+
+            .Noun, .Proper {
+                color: #82ace1
+            }
+
+            .Verb {
+                color: #8be792
+            }
+
+            .Adjective, .Adverb {
+                color: #efbc8a
+            }
+
+            .Particle {
+                color: #eee79f
+            }
+
+            .Pronoun {
+                color: #f0b0d0
+            }
+
+            .Determiner {
+                color: #96eed0
+            }
+
+            .Interjection {
+                color: #fd8889
+            }
+
+            .Conjunction {
+                color: #b8a8ee
+            }
+
+            .Prefix, .Suffix, .Unknown {
+                color: #ffffff
+            }
+        </style>
+    </head>
+
+    <body>
+        <a href="https://vocaloidlyrics.fandom.com/wiki/{{ song_name.replace(' ', '_') }}" style="font-size: 50px" target="_blank">{{ song_name }}</a>
+        <br>
+        {% for line in tokens_matrix %}
+            {% for token in line %}
+                <a href="https://jisho.org/search/{{ token['token'] }}" class="{{ token['pos_tag'].split()[0] }}" target="_blank">{{ token['token'] }}</a>
+            {% endfor %}
+        <br>
+        {% endfor %}
+    </body>
+</html>

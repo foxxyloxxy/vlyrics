@@ -1,0 +1,4 @@
+fandom-py==0.2.1
+jisho-api==0.1.8
+Jinja2==3.1.2
+tqdm==4.66.1
