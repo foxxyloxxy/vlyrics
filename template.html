@@ -12,55 +12,70 @@
             }
 
             body {
-                background-color: #24273a
+                background-color: #24273a;
+            }
+
+            .title {
+                text-align: center;
             }
 
             .Noun, .Proper {
-                color: #82ace1
+                color: #82ace1;
             }
 
             .Verb {
-                color: #8be792
+                color: #8be792;
             }
 
             .Adjective, .Adverb {
-                color: #efbc8a
+                color: #efbc8a;
             }
 
             .Particle {
-                color: #eee79f
+                color: #eee79f;
             }
 
             .Pronoun {
-                color: #f0b0d0
+                color: #f0b0d0;
             }
 
             .Determiner {
-                color: #96eed0
+                color: #96eed0;
             }
 
             .Interjection {
-                color: #fd8889
+                color: #fd8889;
             }
 
             .Conjunction {
-                color: #b8a8ee
+                color: #b8a8ee;
             }
 
             .Prefix, .Suffix, .Unknown {
-                color: #ffffff
+                color: #ffffff;
             }
         </style>
     </head>
 
     <body>
-        <a href="https://vocaloidlyrics.fandom.com/wiki/{{ song_name.replace(' ', '_') }}" style="font-size: 50px" target="_blank">{{ song_name }}</a>
+        <div class="title">
+            <a href="https://vocaloidlyrics.fandom.com/wiki/{{ song_name.replace(' ', '_') }}" style="font-size: 50px" target="_blank">{{ song_name }}</a>
+        </div>
         <br>
-        {% for line in tokens_matrix %}
-            {% for token in line %}
-                <a href="https://jisho.org/search/{{ token['token'] }}" class="{{ token['pos_tag'].split()[0] }}" target="_blank">{{ token['token'] }}</a>
-            {% endfor %}
-        <br>
+
+        <table>
+        {% for line in lines %}
+            <tr>
+                <td>
+                    {% for token in line['tokens'] %}
+                        <a href="https://jisho.org/search/{{ token['token'] }}" class="{{ token['pos_tag'].split()[0] }}" target="_blank">{{ token['token'] }}</a>
+                    {% endfor %}
+                </td>
+                <td>
+                    <a>{{ line['trans'] }}</a>
+                </td>
+            </tr>
         {% endfor %}
+        </table>
     </body>
 </html>

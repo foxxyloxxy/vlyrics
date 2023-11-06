@@ -25,7 +25,7 @@ page = fandom.page(title)
 lyrics = page.section('Lyrics').splitlines()
 jisho = tokenize.Tokens
 
-tokens_matrix = []
+lines = []
 
 end = len(lyrics) - 2
 
@@ -45,7 +45,13 @@ with tqdm(total=(end - x) / 3) as pbar:
         data = json.loads(jisho.request(line).json())['data']
         for token in data:
             tokens.append(token)
-        tokens_matrix.append(tokens)
+
+        line = {
+            'tokens': tokens,
+            'trans': lyrics[x + 2]
+        }
+
+        lines.append(line)
 
         x += 3
         pbar.update(1)
@@ -54,6 +60,6 @@ env = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath='./'))
 template = env.get_template('template.html')
 
 with open(f'songs/{title}.html', 'wb') as html:
-    html.write(template.render(song_name=title, tokens_matrix=tokens_matrix).encode('utf-8'))
+    html.write(template.render(song_name=title, lines=lines).encode('utf-8'))
 
 webbrowser.open(f'songs/{title}.html')

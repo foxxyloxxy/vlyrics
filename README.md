@@ -18,5 +18,4 @@ also i haven't actually tested the .bat script
 - yellow: prefix/suffix/unknown
 
 todo:
-- translation on right
 - furigana
