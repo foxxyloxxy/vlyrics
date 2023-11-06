@@ -4,6 +4,8 @@
 
 use run.sh on linux, run.bat on windows
 
+also i haven't actually tested the .bat script
+
 ### color key:
 - blue: noun/proper noun
 - green: verb
