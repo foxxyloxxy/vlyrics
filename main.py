@@ -7,14 +7,15 @@ import webbrowser
 
 fandom.set_wiki('vocaloidlyrics')
 query = input('enter query: ')
-print('searching for song...')
+print('\nsearching for song...')
 res = fandom.search(query, results=5)
-print('first 5 results:')
+print('\nfirst 5 results:\n')
 for x, song in enumerate(res):
     print(f'{x + 1}. {song[0]}')
+print()
 sel = input('which result to use?: ')
 title = res[int(sel) - 1][0]
-print('getting lyrics...')
+print('\ngetting lyrics...\n')
 page = fandom.page(title)
 lyrics = page.section('Lyrics').splitlines()
 jisho = tokenize.Tokens
