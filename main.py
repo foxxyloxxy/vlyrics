@@ -5,6 +5,8 @@ import jinja2
 from tqdm import tqdm
 import webbrowser
 
+tokenizer = tokenize.Tokens
+
 fandom.set_wiki('vocaloidlyrics')
 
 query = input('enter query: ')
@@ -23,7 +25,6 @@ title = res[int(sel) - 1][0]
 print('\ngetting lyrics...\n')
 page = fandom.page(title)
 lyrics = page.section('Lyrics').splitlines()
-jisho = tokenize.Tokens
 
 lines = []
 
@@ -40,9 +41,9 @@ with tqdm(total=(end - x) / 3) as pbar:
     while x < end:
         tokens = []
 
-        line = lyrics[x]
+        japanese = lyrics[x]
 
-        data = json.loads(jisho.request(line).json())['data']
+        data = json.loads(tokenizer.request(japanese).json())['data']
         for token in data:
             tokens.append(token)
 
