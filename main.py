@@ -4,6 +4,7 @@ from jisho_api import tokenize
 import jinja2
 from tqdm import tqdm
 import webbrowser
+import os
 
 tokenizer = tokenize.Tokens
 
@@ -37,25 +38,61 @@ for x, line in enumerate(lyrics):
 
 x = lyrics.index('Japanese') + 3
 print('tokenizing lyrics...')
-with tqdm(total=(end - x) / 3) as pbar:
-    while x < end:
-        tokens = []
 
-        japanese = lyrics[x]
+gen_furi = os.path.exists(f'songs/{title}.txt')
+flag = 'r' if gen_furi else 'w'
 
-        data = json.loads(tokenizer.request(japanese).json())['data']
-        for token in data:
-            tokens.append(token)
+with open(f'songs/{title}.txt', flag) as text:
+    with tqdm(total=(end - x) / 3) as pbar:
+        contents = None
+        if gen_furi:
+            contents = text.read()
 
-        line = {
-            'tokens': tokens,
-            'trans': lyrics[x + 2]
-        }
+        while x < end:
+            tokens = []
 
-        lines.append(line)
+            japanese = lyrics[x]
 
-        x += 3
-        pbar.update(1)
+            data = json.loads(tokenizer.request(japanese).json())['data']
+            for token in data:
+                token['chars'] = []
+                token_furi = False
+                for char in token['token']:
+                    char_dict = {
+                        'char': char
+                    }
+                    if gen_furi:
+                        contents = contents.split(char, 1)[1]
+                        if contents[0] == '「':
+                            if contents[1] == '「':
+                                furi_index = 2
+                                token_furi = True
+                            else:
+                                furi_index = 1
+                            split = contents.split('」', 1)
+                            char_dict['furi'] = split[0][furi_index:]
+                            if len(split) != 1:
+                                contents = split[1]
+                    token['chars'].append(char_dict)
+                if token_furi:
+                    token['chars'][0]['furi'] = token['chars'][len(token['chars']) - 1]['furi']
+                    for y in range(1, len(token['chars'])):
+                        token['chars'][0]['char'] += token['chars'][y]['char']
+                    token['chars'] = [token['chars'][0]]
+                tokens.append(token)
+
+            line = {
+                'tokens': tokens,
+                'trans': lyrics[x + 2]
+            }
+
+            if not gen_furi:
+                text.write(f'{japanese}\n')
+
+            lines.append(line)
+
+            x += 3
+            pbar.update(1)
 
 env = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath='./'))
 template = env.get_template('template.html')

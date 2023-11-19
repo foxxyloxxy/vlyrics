@@ -17,5 +17,13 @@ also i haven't actually tested the .bat script
 - purple: conjunction
 - yellow: prefix/suffix/unknown
 
-todo:
-- furigana
+### furigana:
+running the first time will generate a .txt file with the lyrics
+
+furigana has to be added manually to that file and then running the script again will generate a new html with furigana
+
+use 「」with furigana within to add it for individual characters, or 「「」」to add it for the entire word/token
+
+ex:
+
+`大人「「おとな」」はもう寝「ね」る時「じ」間「かん」よ`

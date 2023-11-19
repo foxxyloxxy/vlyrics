@@ -15,6 +15,10 @@
                 background-color: #24273a;
             }
 
+            table {
+                width: 100%;
+            }
+
             .title {
                 text-align: center;
             }
@@ -67,9 +71,7 @@
         {% for line in lines %}
             <tr>
                 <td>
-                    {% for token in line['tokens'] %}
-                        <a href="https://jisho.org/search/{{ token['token'] }}" class="{{ token['pos_tag'].split()[0] }}" target="_blank">{{ token['token'] }}</a>
-                    {% endfor %}
+                    {% for token in line['tokens'] %}{% for char in token['chars'] %}<a href="https://jisho.org/search/{{ token['token'] }}" class="{{ token['pos_tag'].split()[0] }}" target="_blank"><ruby>{{ char['char'] }}{% if 'furi' in char %}<rt>{{ char['furi'] }}</rt>{% endif %}</ruby></a>{% endfor %}{% endfor %}
                 </td>
                 <td>
                     <a>{{ line['trans'] }}</a>
