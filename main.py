@@ -39,10 +39,10 @@ for x, line in enumerate(lyrics):
 x = lyrics.index('Japanese') + 3
 print('tokenizing lyrics...')
 
-gen_furi = os.path.exists(f'songs/{title}.txt')
+gen_furi = os.path.exists(f'songs/text/{title}.txt')
 flag = 'r' if gen_furi else 'w'
 
-with open(f'songs/{title}.txt', flag) as text:
+with open(f'songs/text/{title}.txt', flag) as text:
     with tqdm(total=(end - x) / 3) as pbar:
         contents = None
         if gen_furi:
@@ -97,7 +97,7 @@ with open(f'songs/{title}.txt', flag) as text:
 env = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath='./'))
 template = env.get_template('template.html')
 
-with open(f'songs/{title}.html', 'wb') as html:
+with open(f'songs/html/{title}.html', 'wb') as html:
     html.write(template.render(song_name=title, lines=lines).encode('utf-8'))
 
-webbrowser.open(f'songs/{title}.html')
+webbrowser.open(f'songs/html/{title}.html')

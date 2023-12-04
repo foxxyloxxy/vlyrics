@@ -1,7 +1,8 @@
 #!/bin/bash
 
 if [ ! -d "./songs" ]; then
-  mkdir songs
+  mkdir -p songs/text
+  mkdir -p songs/html
 fi
 
 if [ ! -d "./.venv" ]; then
